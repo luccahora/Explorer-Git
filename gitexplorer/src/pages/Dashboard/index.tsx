@@ -1,11 +1,10 @@
-import React from "react";
 import { FiChevronRight } from "react-icons/fi";
 import api from "../../services/api";
 
 import logoImg from "../../assets/logo.svg";
 
 import { Title, Form, Repositories, Error } from "./style";
-import { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useEffect } from "react";
 import Repository from "../Repository";
 
 interface Repository {
@@ -20,7 +19,24 @@ interface Repository {
 const Dashboard: React.FC = () => {
   const [newRepo, setNewRepo] = useState("");
   const [inputError, setInputError] = useState("");
-  const [repositories, setRepositories] = useState<Repository[]>([]);
+  const [repositories, setRepositories] = useState<Repository[]>(() => {
+    const storatedRepositories = localStorage.getItem(
+      "@GithubExplorer:repositorie"
+    );
+
+    if (storatedRepositories) {
+      return JSON.parse(storatedRepositories);
+    } else {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem(
+      "@GithubExplorer:repositories",
+      JSON.stringify(repositories)
+    );
+  }, [repositories]);
 
   /* Consume API  */
   /* Save new repository in state */
