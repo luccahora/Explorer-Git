@@ -1,2 +1,1 @@
-# Explorer-Git
-Pesquisar repositórios do Github,
+<h1 align="center"> Git Explorer </h1>
